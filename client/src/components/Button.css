@@ -1,0 +1,11 @@
+button {
+    padding: 8px 16px;
+    background-color: var(--deep-purple);
+    border: 1px solid var(--deep-purple);
+    color: var(--white);
+    border-radius: 50px;
+}
+
+button:hover {
+    cursor: pointer;
+}

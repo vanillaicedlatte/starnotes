@@ -1,0 +1,30 @@
+.current-chart-item {
+    display: flex;
+    flex-direction: column;
+
+}
+.current-chart-item span {
+    font-size: .9rem;
+}
+
+.current-chart-container {
+    max-width: 800px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.new-note-button-container {
+    width: 100%;
+    text-align: center;
+}
+
+.current-chart-wheel {
+
+}
+.current-chart-list {
+
+}
+.current-chart-item {
+
+}

@@ -1,23 +1,41 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import CurrentChart from './components/CurrentChart';
+import ExploreSection from './components/ExploreSection';
+import Logo from './components/Logo';
+import Menu from './components/Menu';
+import NewNoteButton from './components/NewNoteButton';
+import NewNoteFromChartButton from './components/NewNoteFromChartButton';
+import RandomNoteButton from './components/RandomNoteButton';
+import RecentNotes from './components/RecentNotes';
+import SavedChartsDropdown from './components/SavedChartsDropdown';
+import Search from './components/Search';
+import ViewAllButton from './components/ViewAllButton';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="main">
+      <div className="top-nav">
+        <Logo />
+        <Menu />
+      </div>
+      <div className="quick-buttons">
+        <NewNoteButton />
+        <Search />
+        <RandomNoteButton />
+      </div>
+      <div className="current-chart">
+        <CurrentChart />
+        <NewNoteFromChartButton />
+      </div>
+        <RecentNotes />
+        <ViewAllButton />
+      <div className="saved-charts">
+        <SavedChartsDropdown />
+      </div>
+      <div className="explore-section">
+        <ExploreSection />
+      </div>
     </div>
   );
 }
