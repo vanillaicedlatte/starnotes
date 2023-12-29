@@ -2,12 +2,13 @@ require('dotenv').config({ path: '../.env' });
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-const Note = require('./models/note');
-const noteRoutes = require('./noteRoutes');
-const chartData = require('../client/src/utils/ChartData');
+const chartData = require('../client/src/utils/charts/ChartData');
 const cors = require('cors');
+const notesRouter = require('./routes/notes');  // Adjust the path as needed
 
 app.use(cors());
+
+app.use(express.json()); // for parsing application/json
 
 app.get('/api/planetData', async (req, res) => {
   try {
@@ -19,24 +20,13 @@ app.get('/api/planetData', async (req, res) => {
   }
 });
 
+app.use('/api/notes', notesRouter);  // Use the notes router
+
+// Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI)
 .then(() => console.log('Database connected successfully'))
 .catch(err => console.log(err));
 
-app.use(express.json());
-app.use('/notes', noteRoutes);
-
-app.post('/notes', async (req, res) => {
-  const note = new Note(req.body);
-  await note.save();
-  res.json(note);
-});
-
-app.get('/', (req, res) => {
-  res.send('Hello, world!');
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// Start the server
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log(`Server is running on port ${port}`));

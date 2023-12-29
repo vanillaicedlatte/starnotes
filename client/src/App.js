@@ -1,15 +1,13 @@
 import React from 'react';
 import './App.css';
-import CurrentChart from './components/CurrentChart';
+import CurrentChart from './components/charts/CurrentChart';
 import ExploreSection from './components/ExploreSection';
 import Logo from './components/Logo';
 import Menu from './components/Menu';
-import NewNoteButton from './components/NewNoteButton';
-import NewNoteFromChartButton from './components/NewNoteFromChartButton';
-import RandomNoteButton from './components/RandomNoteButton';
-import RecentNotes from './components/RecentNotes';
-import SavedChartsDropdown from './components/SavedChartsDropdown';
+import SavedChartsDropdown from './components/charts/SavedChartsDropdown';
 import Search from './components/Search';
+import NewNote from './components/notes/NewNote';
+import NotesGrid from './components/notes/Notes';
 import ViewAllButton from './components/ViewAllButton';
 
 function App() {
@@ -20,15 +18,17 @@ function App() {
         <Menu />
       </div>
       <div className="quick-buttons">
-        <NewNoteButton />
         <Search />
-        <RandomNoteButton />
       </div>
       <div className="current-chart">
         <CurrentChart />
-        <NewNoteFromChartButton />
       </div>
-        <RecentNotes />
+      <div className="notes">
+        <NotesGrid />
+      </div>
+      <div className="new-note">
+        <NewNote />
+      </div>
         <ViewAllButton />
       <div className="saved-charts">
         <SavedChartsDropdown />
