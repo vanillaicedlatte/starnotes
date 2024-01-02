@@ -7,7 +7,7 @@ import Menu from './components/Menu';
 import SavedChartsDropdown from './components/charts/SavedChartsDropdown';
 import Search from './components/Search';
 import NewNote from './components/notes/NewNote';
-import NotesGrid from './components/notes/Notes';
+import NotesGrid from './components/notes/NotesGrid';
 import ViewAllButton from './components/ViewAllButton';
 
 function App() {
