@@ -14,6 +14,16 @@
     grid-template-columns: 1fr 1fr;
 }
 
+.current-chart-wheel {
+    width: 100%;
+    height: 100%;
+
+}
+
+#paper {
+    width: 100%;
+  }
+
 .new-note-button-container {
     width: 100%;
     text-align: center;

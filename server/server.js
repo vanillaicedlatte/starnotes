@@ -20,6 +20,16 @@ app.get('/api/planetData', async (req, res) => {
   }
 });
 
+app.get('/api/astroData', async (req, res) => {
+  try {
+    const data = await chartData.calculateAstroData(); // Call the function without arguments
+    res.json(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while calculating AstroChart data.' });
+  }
+});
+
 app.use('/api/notes', notesRouter);  // Use the notes router
 
 // Connect to MongoDB

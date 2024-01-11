@@ -10,9 +10,7 @@ const Note = ({ note }) => {
         ))}
         {chartTags.map(({ _id, name, sign, degree }) => (
           <div key={_id}>
-            <h3>{name}</h3>
-            <p>{sign}</p>
-            <p>{degree}</p>
+            <p>{name} at {degree} {sign}</p>
           </div>
         ))}
       </div>

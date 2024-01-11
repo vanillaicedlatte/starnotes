@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import WheelChart from './wheelChart.js';
 import './CurrentChart.css';
 
 async function fetchData(setPlanetData, setError) {
@@ -19,12 +20,29 @@ async function fetchData(setPlanetData, setError) {
   }
 }
 
+
+async function fetchAstroData() {
+  try {
+    const response = await fetch('http://localhost:3000/api/astroData');
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+
 function CurrentChart() {
   const [planetData, setPlanetData] = useState([]);
+  const [astroData, setAstroData] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchData(setPlanetData, setError);
+    fetchAstroData().then(setAstroData);
     const intervalId = setInterval(() => fetchData(setPlanetData, setError), 5 * 60 * 1000); // Fetch data every 5 minutes
     return () => clearInterval(intervalId); // Clean up on component unmount
   }, []);
@@ -35,7 +53,9 @@ function CurrentChart() {
 
   return (
     <div className="current-chart-container">
-    <div className="current-chart-wheel">Wheel</div>
+    <div className="current-chart-wheel">
+    {astroData && <WheelChart data={astroData} />}
+    </div>
     <div className="current-chart-list">
     <div className="current-chart-item">
       {planetData.map((data) => (

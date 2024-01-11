@@ -6,6 +6,7 @@ const { calculatePlacement } = require('./celestialBodies');
 const { calculateMoonPhase } = require('./MoonPhase');
 const { calculateAscendant } = require('./Ascendant');
 const { calculateMidheaven } = require('./Midheaven');
+const transformData = require('./AstroChartData');
 
 const celestialBodies = [sweph.constants.SE_SUN, sweph.constants.SE_MOON, sweph.constants.SE_MERCURY, sweph.constants.SE_VENUS, sweph.constants.SE_MARS, sweph.constants.SE_JUPITER, sweph.constants.SE_SATURN, sweph.constants.SE_URANUS, sweph.constants.SE_NEPTUNE, sweph.constants.SE_PLUTO];
 const celestialBodyNames = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'];
@@ -51,5 +52,20 @@ module.exports.calculatePlanetData = function() {
     degree: southNode.degree
   });
 
+  const astroData = transformData(celestialBodiesData);
+
   return celestialBodiesData;
+}
+
+module.exports.calculateAstroData = function() {
+  let celestialBodiesData = module.exports.calculatePlanetData();
+
+  // Exclude North Node, South Node, and Midheaven
+  celestialBodiesData = celestialBodiesData.filter(body => 
+    body.name !== 'North Node' && body.name !== 'South Node' && body.name !== 'Midheaven'
+  );
+
+  const astroData = transformData(celestialBodiesData);
+
+  return astroData;
 }
