@@ -1,41 +1,39 @@
-:root {
-  --purple: #390A5D;
-  --deep-purple: #1F0234;
-  --white: #ffffff;
-}
-body {
-  background-color: var(--purple);
-  margin: 0;
-  padding: 0;
-  color: var(--white);
-  font-family: 'Roboto', sans-serif;
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+#paper-astrology-radix-signs-0, #paper-astrology-radix-signs-4, #paper-astrology-radix-signs-8 {
+    fill: #f87171;
+    stroke: #f87171;
+    stroke-width: 1px;
 }
 
-.main {
-  max-width: 1200px;
-  margin: 0 auto;
+#paper-astrology-radix-signs-1, #paper-astrology-radix-signs-5, #paper-astrology-radix-signs-9 {
+    fill: #86efac;
+    stroke: #86efac;
+    stroke-width: 1px;
 }
 
-.top-nav {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  padding: 16px 0;
+#paper-astrology-radix-signs-2, #paper-astrology-radix-signs-6, #paper-astrology-radix-signs-10 {
+    fill: #fdba74;
+    stroke: #fdba74;
+    stroke-width: 1px;
 }
 
-.quick-buttons {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  padding: 16px 0;
+#paper-astrology-radix-signs-3, #paper-astrology-radix-signs-7, #paper-astrology-radix-signs-11 {
+    fill: #67e8f9;
+    stroke: #67e8f9;
+    stroke-width: 1px;
 }
 
-.view-all-button {
-  width: 100%;
-  padding: 16px;
-  text-align: center;
+#paper-astrology-radix-circles circle {
+    stroke: #ffffff;
+}
+
+#paper-astrology-radix-axis g path {
+    stroke: #ffffff;
+}
+
+#paper-astrology-radix-axis line {
+    stroke: #ffffff;
 }

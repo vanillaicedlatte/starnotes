@@ -1,18 +1,18 @@
 const Note = ({ note }) => {
-    const { title, content, userTags = [], chartTags = [] } = note;
+  const { title, content, userTags = [], chartTags = [], updatedAt } = note;
   
     return (
-      <div>
-        <h2>{title}</h2>
+      <div className="bg-neutral p-4 text-base-100 rounded-box">
+        <h2 className="font-bold">{title}</h2>
         <p>{content}</p>
-        {userTags.map((tag, index) => (
-          <span key={index}>{tag}</span>
-        ))}
-        {chartTags.map(({ _id, name, sign, degree }) => (
-          <div key={_id}>
-            <p>{name} at {degree} {sign}</p>
-          </div>
-        ))}
+        <div className="flex gap-1">
+          {userTags.map((tag, index) => (
+            tag.trim() !== '' && <span className="badge badge-ghost badge-outline text-xs opacity-75 overflow-hidden whitespace-nowrap truncate" key={index}>{tag}</span>
+          ))}
+        </div>
+        <div>
+        <p className="text-xs opacity-75">Last edited: {new Date(updatedAt).toLocaleString()}</p> 
+        </div>
       </div>
     );
   };

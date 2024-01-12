@@ -24,6 +24,9 @@
     "express": "^4.18.2",
     "mongodb": "^6.3.0",
     "mongoose": "^8.0.3",
-    "sweph": "^2.10.3-3"
+    "react-router-dom": "^6.21.2",
+    "react-scripts": "^5.0.1",
+    "sweph": "^2.10.3-3",
+    "tailwindcss": "^3.4.1"
   }
 }

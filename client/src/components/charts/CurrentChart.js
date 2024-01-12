@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import WheelChart from './wheelChart.js';
-import './CurrentChart.css';
 
 async function fetchData(setPlanetData, setError) {
   try {
@@ -57,7 +56,7 @@ function CurrentChart() {
     {astroData && <WheelChart data={astroData} />}
     </div>
     <div className="current-chart-list">
-    <div className="current-chart-item">
+    <div className="flex flex-col">
       {planetData.map((data) => (
         <span key={data.name}>
           {data.name} at <span className="current-chart-degree">{data.degree}°</span> {data.sign} {data.name === 'Moon' && <span>{data.phase}</span>}

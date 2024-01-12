@@ -5,9 +5,9 @@ function WheelChart({ data }) {
   const containerRef = useRef();
 
   useEffect(() => {
-    const size = containerRef.current.offsetWidth;
-    const SYMBOL_SCALE = size / 500; // Adjust SYMBOL_SCALE based on chart size
-    const chart = new Chart(containerRef.current.id, size, size, { SYMBOL_SCALE });
+    const size = containerRef.current.clientWidth;
+    const SYMBOL_SCALE = size / 360; // Adjust SYMBOL_SCALE based on chart size
+    const chart = new Chart('paper', 300, 300, { SYMBOL_SCALE });
     const radix = chart.radix(data);
     radix.aspects();
   }, [data]);

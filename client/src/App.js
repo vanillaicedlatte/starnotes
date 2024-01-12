@@ -1,35 +1,30 @@
 import React from 'react';
 import './App.css';
-import CurrentChart from './components/charts/CurrentChart';
 import ExploreSection from './components/ExploreSection';
 import Logo from './components/Logo';
 import Menu from './components/Menu';
 import SavedChartsDropdown from './components/charts/SavedChartsDropdown';
-import Search from './components/Search';
-import NewNote from './components/notes/NewNote';
 import NotesGrid from './components/notes/NotesGrid';
-import ViewAllButton from './components/ViewAllButton';
+import NewNoteButton from './components/notes/NewNoteButton';
+import Sidebar from './components/Sidebar';
 
 function App() {
   return (
-    <div className="main">
-      <div className="top-nav">
-        <Logo />
-        <Menu />
-      </div>
-      <div className="quick-buttons">
-        <Search />
-      </div>
-      <div className="current-chart">
-        <CurrentChart />
-      </div>
+<div className="main">
+  <div className="top-nav flex justify-between items-center p-6 bg-base-300">
+    <Logo />
+    <Menu />
+    <div className="btn-group flex gap-4">
+    <NewNoteButton />
+    <button className="btn btn-ghost">My Notes</button>
+    </div>
+  </div>
+  <div className="content grid grid-cols-4 gap-4 p-3">
+    <Sidebar />
+    <div className="main-content col-span-3 p-3">
       <div className="notes">
         <NotesGrid />
       </div>
-      <div className="new-note">
-        <NewNote />
-      </div>
-        <ViewAllButton />
       <div className="saved-charts">
         <SavedChartsDropdown />
       </div>
@@ -37,6 +32,8 @@ function App() {
         <ExploreSection />
       </div>
     </div>
+  </div>
+</div>
   );
 }
 
