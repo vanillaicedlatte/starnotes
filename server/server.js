@@ -1,41 +1,78 @@
-require('dotenv').config({ path: '../.env' });
-const express = require('express');
+require("dotenv").config({ path: "../.env" });
+const express = require("express");
 const app = express();
-const mongoose = require('mongoose');
-const chartData = require('../client/src/utils/charts/ChartData');
-const cors = require('cors');
-const notesRouter = require('./routes/notes');  // Adjust the path as needed
+const mongoose = require("mongoose");
+const chartData = require("../client/src/utils/charts/chartCalculation/ChartData");
+const cors = require("cors");
+const notesRouter = require("./routes/notes");
+const savedChartsRouter = require("./routes/natalcharts");
 
 app.use(cors());
 
 app.use(express.json()); // for parsing application/json
 
-app.get('/api/planetData', async (req, res) => {
-  try {
-    const data = await chartData.calculatePlanetData(); // Call the function without arguments
-    res.json(data);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'An error occurred while calculating planet data.' });
-  }
+app.get("/api/planetData", async (req, res) => {
+	try {
+		const now = new Date();
+		const year = now.getFullYear();
+		const month = now.getMonth() + 1; // JavaScript months are 0-indexed
+		const day = now.getDate();
+		const hour = now.getHours();
+		const minute = now.getMinutes();
+		const second = now.getSeconds();
+
+		const data = await chartData.calculatePlanetData(
+			year,
+			month,
+			day,
+			hour,
+			minute,
+			second
+		);
+		res.json(data);
+	} catch (error) {
+		console.error(error);
+		res
+			.status(500)
+			.json({ error: "An error occurred while calculating planet data." });
+	}
 });
 
-app.get('/api/astroData', async (req, res) => {
-  try {
-    const data = await chartData.calculateAstroData(); // Call the function without arguments
-    res.json(data);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'An error occurred while calculating AstroChart data.' });
-  }
+app.get("/api/astroData", async (req, res) => {
+	try {
+		const now = new Date();
+		const year = now.getFullYear();
+		const month = now.getMonth() + 1; // JavaScript months are 0-indexed
+		const day = now.getDate();
+		const hour = now.getHours();
+		const minute = now.getMinutes();
+		const second = now.getSeconds();
+
+		const data = await chartData.calculateAstroData(
+			year,
+			month,
+			day,
+			hour,
+			minute,
+			second
+		);
+		res.json(data);
+	} catch (error) {
+		console.error(error);
+		res
+			.status(500)
+			.json({ error: "An error occurred while calculating AstroChart data." });
+	}
 });
 
-app.use('/api/notes', notesRouter);  // Use the notes router
+app.use("/api/notes", notesRouter);
+app.use("/api/saved-charts", savedChartsRouter);
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI)
-.then(() => console.log('Database connected successfully'))
-.catch(err => console.log(err));
+mongoose
+	.connect(process.env.MONGODB_URI)
+	.then(() => console.log("Database connected successfully"))
+	.catch((err) => console.log(err));
 
 // Start the server
 const port = process.env.PORT || 3000;

@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import NewNote from './NewNote';
+import NewNatalChart from './NewNatalChart';
 
-const NewNoteButton = () => {
+const NewNatalChartButton = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     const handleOpen = () => {
@@ -27,13 +27,13 @@ const NewNoteButton = () => {
 
     return (
         <>
-        <button onClick={handleOpen} className="btn btn-accent">
-            <FontAwesomeIcon icon={faPlus} /> New Note
-        </button>
-    {isOpen && (
+            <button onClick={handleOpen} className="btn btn-accent">
+                <FontAwesomeIcon icon={faPlus} /> New Natal Chart
+            </button>
+            {isOpen && (
                 <div className="modal modal-open" onClick={handleClose}>
                     <div className="modal-box" onClick={e => e.stopPropagation()}>
-                        <NewNote cancel={handleClose} />
+                        <NewNatalChart cancel={handleClose} />
                     </div>
                 </div>
             )}
@@ -41,4 +41,4 @@ const NewNoteButton = () => {
     );
 };
 
-export default NewNoteButton;
+export default NewNatalChartButton;
