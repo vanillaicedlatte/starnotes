@@ -9,6 +9,7 @@ function NewNatalChart({ cancel }) {
 	const [lat, setLat] = useState(""); // New state variable for the latitude
 	const [long, setLong] = useState(""); // New state variable for the longitude
 	const [tags, setTags] = useState("");
+	const [amPm, setAmPm] = useState("");
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -30,16 +31,32 @@ function NewNatalChart({ cancel }) {
 			.map((tag) => tag.trim())
 			.filter((tag) => tag !== "");
 
-		const birthTime = `${birthHour.padStart(2, "0")}:${birthMinute.padStart(
-			2,
-			"0"
-		)}:00`;
+		let adjustedHour = parseInt(birthHour);
+		if (amPm === "PM" && adjustedHour !== 12) {
+			adjustedHour += 12;
+		} else if (amPm === "AM" && adjustedHour === 12) {
+			adjustedHour = 0;
+		}
+
+		const birthTime = `${adjustedHour
+			.toString()
+			.padStart(2, "0")}:${birthMinute.padStart(2, "0")}:00`;
+
+		// Extract the year, month, and day from birthDate
+		const [year, month, day] = birthDate.split("-").map(Number);
+
+		// Create a new Date object in UTC
+		const birthDateTime = new Date(
+			Date.UTC(year, month - 1, day, adjustedHour, Number(birthMinute))
+		);
+
+		// Convert the birth date and time to a string in the format "YYYY-MM-DDTHH:mm:ss.sssZ"
+		const birthDateTimeString = birthDateTime.toISOString();
 
 		const newSavedChart = {
 			userId: "123456789012345678901234",
 			chartName,
-			birthDate,
-			birthTime,
+			birthDate: birthDateTimeString, // Use the combined date and time string
 			lat,
 			long,
 			chartData: {}, // Add this line
@@ -78,24 +95,35 @@ function NewNatalChart({ cancel }) {
 						onChange={(e) => setBirthDate(e.target.value)}
 						className='input input-bordered w-full'
 					/>
-					<input
-						type='number'
-						placeholder='Birth Hour'
-						value={birthHour}
-						onChange={(e) => setBirthHour(e.target.value)}
-						className='input input-bordered w-full'
-						min='0'
-						max='23'
-					/>
-					<input
-						type='number'
-						placeholder='Birth Minute'
-						value={birthMinute}
-						onChange={(e) => setBirthMinute(e.target.value)}
-						className='input input-bordered w-full'
-						min='0'
-						max='59'
-					/>
+					<div className='flex space-x-4'>
+						<input
+							type='number'
+							placeholder='Birth Hour'
+							value={birthHour}
+							onChange={(e) => setBirthHour(e.target.value)}
+							className='input input-bordered w-full'
+							min='1'
+							max='12'
+						/>
+						<input
+							type='number'
+							placeholder='Birth Minute'
+							value={birthMinute}
+							onChange={(e) => setBirthMinute(e.target.value)}
+							className='input input-bordered w-full'
+							min='0'
+							max='59'
+						/>
+						<select
+							value={amPm}
+							onChange={(e) => setAmPm(e.target.value)}
+							className='input input-bordered w-full'
+						>
+							<option value=''>Select AM/PM</option>
+							<option value='AM'>AM</option>
+							<option value='PM'>PM</option>
+						</select>
+					</div>
 					<input
 						type='text'
 						placeholder='Latitude'

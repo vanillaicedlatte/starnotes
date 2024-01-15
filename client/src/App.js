@@ -19,9 +19,9 @@ function App() {
 					<button className='btn btn-ghost'>My Notes</button>
 				</div>
 			</div>
-			<div className='content grid grid-cols-4 gap-4 p-3'>
-				<Sidebar />
-				<div className='main-content col-span-3 p-3'>
+			<div className='content grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-3'>
+				<Sidebar className='col-span-1' />
+				<div className='main-content sm:col-span-1 md:col-span-2 lg:col-span-3 p-3'>
 					<div className='notes'>
 						<NotesGrid />
 					</div>

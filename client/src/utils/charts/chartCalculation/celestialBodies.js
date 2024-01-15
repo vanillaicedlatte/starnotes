@@ -35,11 +35,12 @@ module.exports.calculatePlacement = function (body, name, jd_et) {
 			throw new Error(result.error);
 		}
 
-		const position = result.data[0]; // Use the calculated longitude
-		console.log(`Position for ${name}:`, position); // Log the position
-		const signIndex = Math.floor(position / 30);
+		const longitude = result.data[0]; // Use the calculated longitude
+		const latitude = result.data[1]; // Use the calculated latitude
+		console.log(`Position for ${name}:`, longitude); // Log the position
+		const signIndex = Math.floor(longitude / 30);
 		const sign = zodiacSigns[signIndex];
-		const degree = Math.floor(position - signIndex * 30)
+		const degree = Math.floor(longitude - signIndex * 30)
 			.toString()
 			.padStart(2, "0");
 
@@ -47,6 +48,8 @@ module.exports.calculatePlacement = function (body, name, jd_et) {
 			name: name,
 			sign: sign,
 			degree: degree,
+			longitude: longitude, // Add longitude to the returned data
+			latitude: latitude, // Add latitude to the returned data
 		};
 
 		return placement;

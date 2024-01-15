@@ -50,11 +50,37 @@ module.exports.calculatePlanetData = function (
 	);
 	const geolat = 31.0897378;
 	const geolon = -86.1652522;
-	console.log(celestialBodies);
+
 	const celestialBodiesData = celestialBodies.map((body, index) => {
 		console.log("body:", body);
 		const name = celestialBodyNames[index];
-		return calculatePlacement(body, name, jd_et);
+		const placement = calculatePlacement(body, name, jd_et);
+
+		// Calculate house position
+		const armc = sweph.degnorm(
+			sweph.sidtime0(jd_ut, 23.4392911, 0) * 15 + geolon
+		);
+		const eps = 23.4392911; // Mean obliquity of the ecliptic
+		const xpin = [placement.longitude, placement.latitude];
+		const serr = new Array(256).fill(0); // Error message buffer
+		const houseSystem = "W"; // Replace with your chosen house system
+
+		const housePos = sweph.house_pos(
+			armc,
+			geolat,
+			eps,
+			houseSystem,
+			xpin,
+			serr
+		);
+		console.log(
+			`${name}: ${placement.sign} ${placement.degree}, House ${housePos.data}`
+		);
+		// Add house position to the returned data
+		return {
+			...placement,
+			housePos,
+		};
 	});
 
 	const { sign: ascSign, degree: ascDegree } = calculateAscendant(
