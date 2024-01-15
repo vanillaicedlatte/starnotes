@@ -4,33 +4,30 @@ const SavedChart = require("../models/SavedChart");
 const chartData = require("/Users/jamiespann/repos/starnotes/client/src/utils/charts/chartCalculation/ChartData");
 
 router.post("/", async (req, res) => {
-	const { userId, chartName, birthDate, birthTime, lat, long, tags } = req.body;
+	const { userId, chartName, birthDate, lat, long, userTags } = req.body;
 
-	// let chartPlacements;
-	// try {
-	//     chartPlacements = await chartData.calculatePlanetData(
-	//         birthDate,
-	//         birthTime,
-	//         lat,
-	//         long
-	//     );
-	// } catch (error) {
-	//     console.error(error);
-	//     res
-	//         .status(500)
-	//         .json({ error: "An error occurred while calculating chart placements." });
-	//     return;
-	// }
+	let chartTags;
+	try {
+		chartTags = await chartData.calculatePlanetData();
+	} catch (error) {
+		console.error(error);
+		res
+			.status(500)
+			.json({
+				error:
+					"An error occurred while calculating planet data for natal chart.",
+			});
+		return;
+	}
 
 	const newSavedChart = new SavedChart({
 		userId,
 		chartName,
 		birthDate,
-		birthTime,
 		lat,
 		long,
-		chartData, // Provide a default value for chartData
-		tags,
+		chartTags,
+		userTags,
 	});
 
 	try {

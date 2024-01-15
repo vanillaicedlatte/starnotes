@@ -16,7 +16,9 @@ router.post("/", async (req, res) => {
 		console.error(error);
 		res
 			.status(500)
-			.json({ error: "An error occurred while calculating planet data." });
+			.json({
+				error: "An error occurred while calculating planet data for note.",
+			});
 		return;
 	}
 

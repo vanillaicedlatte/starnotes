@@ -6,6 +6,7 @@ const { calculatePlacement } = require("./celestialBodies");
 const { calculateAscendant } = require("./Ascendant");
 const { calculateMidheaven } = require("./Midheaven");
 const transformData = require("../chartOfTheMoment/AstroChartData");
+const { calculateHouse } = require("./houseCalculation");
 
 const celestialBodies = [
 	sweph.constants.SE_SUN,
@@ -32,6 +33,9 @@ const celestialBodyNames = [
 	"Pluto",
 ];
 
+const geolat = 31.0897378;
+const geolon = -86.1652522;
+
 module.exports.calculatePlanetData = function (
 	year,
 	month,
@@ -48,78 +52,103 @@ module.exports.calculatePlanetData = function (
 		minute,
 		second
 	);
-	const geolat = 31.0897378;
-	const geolon = -86.1652522;
+	const armc = sweph.degnorm(
+		sweph.sidtime0(jd_ut, 23.4392911, 0) * 15 + geolon
+	);
+	const eps = 23.4392911; // Mean obliquity of the ecliptic
+	const serr = new Array(256).fill(0); // Error message buffer
 
-	const celestialBodiesData = celestialBodies.map((body, index) => {
+	let celestialBodiesData = celestialBodies.map((body, index) => {
 		console.log("body:", body);
 		const name = celestialBodyNames[index];
 		const placement = calculatePlacement(body, name, jd_et);
 
-		// Calculate house position
-		const armc = sweph.degnorm(
-			sweph.sidtime0(jd_ut, 23.4392911, 0) * 15 + geolon
-		);
-		const eps = 23.4392911; // Mean obliquity of the ecliptic
-		const xpin = [placement.longitude, placement.latitude];
-		const serr = new Array(256).fill(0); // Error message buffer
-		const houseSystem = "W"; // Replace with your chosen house system
+		console.log(`Placement for ${name}:`, placement);
 
-		const housePos = sweph.house_pos(
-			armc,
+		if (typeof placement.longitude !== "number") {
+			throw new Error(
+				`Longitude for ${name} is not a number: ${placement.longitude}`
+			);
+		}
+
+		// Calculate house position
+		const housePos = calculateHouse(
+			placement.longitude,
+			jd_ut,
 			geolat,
+			geolon,
+			armc,
 			eps,
-			houseSystem,
-			xpin,
 			serr
 		);
 		console.log(
-			`${name}: ${placement.sign} ${placement.degree}, House ${housePos.data}`
+			`${name}: ${placement.sign} ${placement.degree}, House ${housePos}`
 		);
 		// Add house position to the returned data
 		return {
 			...placement,
-			housePos,
+			house: housePos, // Use the returned house position
 		};
 	});
 
+	// Calculate Ascendant, Midheaven, North Node, and South Node
 	const { sign: ascSign, degree: ascDegree } = calculateAscendant(
 		jd_ut,
 		geolat,
 		geolon
 	);
-	celestialBodiesData.unshift({
-		name: "Ascendant",
-		sign: ascSign,
-		degree: ascDegree,
-	});
-
 	const { sign: midSign, degree: midDegree } = calculateMidheaven(
 		jd_ut,
 		geolat,
 		geolon
 	);
-	celestialBodiesData.push({
-		name: "Midheaven",
-		sign: midSign,
-		degree: midDegree,
-	});
-
 	const { calculateNorthNode, calculateSouthNode } = require("./Nodes");
-
 	const northNode = calculateNorthNode(jd_et);
-	celestialBodiesData.push({
-		name: "North Node",
-		sign: northNode.sign,
-		degree: northNode.degree,
-	});
-
 	const southNode = calculateSouthNode(jd_et);
-	celestialBodiesData.push({
-		name: "South Node",
-		sign: southNode.sign,
-		degree: southNode.degree,
+
+	// Add Ascendant, Midheaven, North Node, and South Node to celestialBodiesData
+	celestialBodiesData.unshift({
+		name: "Ascendant",
+		sign: ascSign,
+		degree: ascDegree,
+		house: 1,
 	});
+	celestialBodiesData.push(
+		{
+			name: "Midheaven",
+			sign: midSign,
+			degree: midDegree,
+			house: midheavenHouse,
+		},
+		{
+			name: "North Node",
+			sign: northNode.sign,
+			degree: northNode.degree,
+			house: calculateHouse(
+				northNode.degree,
+				jd_ut,
+				geolat,
+				geolon,
+				armc,
+				eps,
+				serr
+			),
+		},
+		{
+			name: "South Node",
+			sign: southNode.sign,
+			degree: southNode.degree,
+			house: calculateHouse(
+				(southNode.degree + 180) % 360,
+				jd_ut,
+				geolat,
+				geolon,
+				armc,
+				eps,
+				serr
+			),
+		}
+	);
 
 	const astroData = transformData(celestialBodiesData);
 

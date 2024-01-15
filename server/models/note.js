@@ -10,6 +10,7 @@ const noteSchema = new mongoose.Schema(
 				name: String,
 				sign: String,
 				degree: String,
+				house: Number,
 			},
 		],
 		category: {
