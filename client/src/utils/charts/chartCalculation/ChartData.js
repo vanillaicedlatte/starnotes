@@ -97,11 +97,11 @@ module.exports.calculatePlanetData = function (
 		geolat,
 		geolon
 	);
-	const { sign: midSign, degree: midDegree } = calculateMidheaven(
-		jd_ut,
-		geolat,
-		geolon
-	);
+	const {
+		sign: midSign,
+		degree: midDegree,
+		house: midheavenHouse,
+	} = calculateMidheaven(jd_ut, geolat, geolon);
 	const { calculateNorthNode, calculateSouthNode } = require("./Nodes");
 	const northNode = calculateNorthNode(jd_et);
 	const southNode = calculateSouthNode(jd_et);

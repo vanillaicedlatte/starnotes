@@ -7,16 +7,30 @@ router.post("/", async (req, res) => {
 	const { userId, chartName, birthDate, lat, long, userTags } = req.body;
 
 	let chartTags;
+	const birthDateObj = new Date(birthDate);
+	const birthYear = birthDateObj.getFullYear();
+	const birthMonth = birthDateObj.getMonth() + 1; // getMonth() returns a zero-based month, so we add 1
+	const birthDay = birthDateObj.getDate();
+	const birthHour = birthDateObj.getHours();
+	const birthMinute = birthDateObj.getMinutes();
+	const birthSecond = birthDateObj.getSeconds();
+	console.log(birthDate, lat, long);
 	try {
-		chartTags = await chartData.calculatePlanetData();
+		chartTags = await chartData.calculatePlanetData(
+			birthYear,
+			birthMonth,
+			birthDay,
+			birthHour,
+			birthMinute,
+			birthSecond,
+			lat,
+			long
+		);
 	} catch (error) {
 		console.error(error);
-		res
-			.status(500)
-			.json({
-				error:
-					"An error occurred while calculating planet data for natal chart.",
-			});
+		res.status(500).json({
+			error: "An error occurred while calculating planet data for natal chart.",
+		});
 		return;
 	}
 
