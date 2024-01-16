@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useUser } from "@clerk/clerk-react";
 
 function NewNatalChart({ cancel }) {
 	const [chartName, setChartName] = useState("");
@@ -10,6 +11,7 @@ function NewNatalChart({ cancel }) {
 	const [long, setLong] = useState(""); // New state variable for the longitude
 	const [tags, setTags] = useState("");
 	const [amPm, setAmPm] = useState("");
+	const { user } = useUser();
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -54,7 +56,7 @@ function NewNatalChart({ cancel }) {
 		const birthDateTimeString = birthDateTime.toISOString();
 
 		const newSavedChart = {
-			userId: "123456789012345678901234",
+			userId: user.id,
 			chartName,
 			birthDate: birthDateTimeString, // Use the combined date and time string
 			lat,

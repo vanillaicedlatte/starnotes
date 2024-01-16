@@ -3,6 +3,7 @@ import axios from "axios";
 import Note from "./Note";
 import filterNotes from "../../utils/notes/filterNotes.cjs";
 import NotesFilter from "./NotesFilter";
+import { useUser } from "@clerk/clerk-react";
 
 const NotesGrid = ({ maxNotes, showPagination }) => {
 	const [notes, setNotes] = useState([]);
@@ -14,11 +15,14 @@ const NotesGrid = ({ maxNotes, showPagination }) => {
 	});
 	const [page, setPage] = useState(1);
 	const notesPerPage = 9; // or any number you want
+	const { user } = useUser();
 
 	useEffect(() => {
 		const fetchNotes = async () => {
 			try {
-				const response = await axios.get("http://localhost:3000/api/notes");
+				const response = await axios.get(
+					`http://localhost:3000/api/notes?userId=${user.id}`
+				);
 				const sortedNotes = response.data.sort(
 					(a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
 				);

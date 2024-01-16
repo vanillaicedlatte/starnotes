@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useUser } from "@clerk/clerk-react";
 
 const NewNote = ({ cancel }) => {
 	const [title, setTitle] = useState("");
@@ -10,6 +11,7 @@ const NewNote = ({ cancel }) => {
 	const [selectedNatalChart, setSelectedNatalChart] = useState("");
 	const [filterText, setFilterText] = useState("");
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+	const { user } = useUser();
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -32,6 +34,7 @@ const NewNote = ({ cancel }) => {
 				userTags,
 				category: finalCategory,
 				natalChart: selectedNatalChart,
+				userId: user.id,
 			}); // use finalCategory in the post request
 			console.log(response.data);
 		} catch (error) {

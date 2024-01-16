@@ -22,6 +22,7 @@ const MainContent = () => {
 					<div className='btn-group flex gap-4'>
 						<NewNoteButton />
 						<button className='btn btn-ghost'>My Notes</button>
+						<SignOutButton />
 					</div>
 				</div>
 				<div className='content grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-3'>

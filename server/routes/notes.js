@@ -34,6 +34,7 @@ router.post("/", async (req, res) => {
 		chartTags,
 		category,
 		natalChart,
+		userId,
 	});
 
 	// Save the note
@@ -42,13 +43,20 @@ router.post("/", async (req, res) => {
 	// Send the note as a response
 	res.json(note);
 });
-
 // GET route for /api/notes
 router.get("/", async (req, res) => {
+	console.log("GET /api/notes route called");
+
 	try {
-		const notes = await Note.find();
+		const userId = req.query.userId;
+		console.log(`userId from query params: ${userId}`);
+
+		const notes = await Note.find({ userId: userId });
+		console.log(`Found ${notes.length} notes for userId ${userId}`);
+
 		res.json(notes);
 	} catch (error) {
+		console.error("An error occurred while fetching the notes:", error);
 		res
 			.status(500)
 			.json({ error: "An error occurred while fetching the notes." });

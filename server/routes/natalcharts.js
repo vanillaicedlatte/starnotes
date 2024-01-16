@@ -60,7 +60,8 @@ router.post("/", async (req, res) => {
 
 router.get("/", async (req, res) => {
 	try {
-		const savedCharts = await SavedChart.find();
+		const userId = req.query.userId;
+		const savedCharts = await SavedChart.find({ userId: userId });
 		res.json(savedCharts);
 	} catch (error) {
 		res.status(500).json({ message: error.message });

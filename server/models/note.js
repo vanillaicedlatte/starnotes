@@ -23,6 +23,10 @@ const noteSchema = new Schema(
 			type: Schema.Types.ObjectId,
 			ref: "NatalChart",
 		},
+		userId: {
+			type: String,
+			required: true,
+		},
 	},
 	{
 		timestamps: true,
