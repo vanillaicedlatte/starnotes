@@ -1,6 +1,7 @@
 import React from "react";
 import CurrentChart from "./chartOfTheMoment/CurrentChart";
 import NewNatalChartButton from "./natalCharts/NewNatalChartButton";
+import SavedChartsDropdown from "./natalCharts/SavedChartsDropdown";
 
 const Sidebar = () => {
 	return (
@@ -16,6 +17,9 @@ const Sidebar = () => {
 			</div>
 			<div className='sidebar-saved-charts'>
 				<h2>Saved Charts</h2>
+				<div className='saved-charts'>
+					<SavedChartsDropdown />
+				</div>
 				<NewNatalChartButton />
 			</div>
 		</div>

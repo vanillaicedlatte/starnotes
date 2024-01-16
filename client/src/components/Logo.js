@@ -1,11 +1,14 @@
-import React from 'react';
+import React from "react";
+import { Link } from "@tanstack/react-router";
 
 const Logo = () => {
-    return (
-        <div>
-            <h1>StarNotes</h1>
-        </div>
-    );
+	return (
+		<div>
+			<Link to='/'>
+				<h1>StarNotes</h1>
+			</Link>
+		</div>
+	);
 };
 
 export default Logo;

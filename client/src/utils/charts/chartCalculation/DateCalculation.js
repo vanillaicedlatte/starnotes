@@ -26,6 +26,17 @@ module.exports.calculateDate = function (
 	minute = minute || now.getUTCMinutes();
 	second = second || now.getUTCSeconds();
 
+	// Convert from CST to UTC
+	// CST is UTC-6
+	hour += 6;
+	if (hour >= 24) {
+		hour -= 24;
+		day += 1;
+		// Add more logic here to handle month/year overflow
+	}
+
+	console.log("Input date in UTC:", year, month, day, hour, minute, second);
+
 	const date = sweph.utc_to_jd(
 		year,
 		month,
@@ -41,5 +52,11 @@ module.exports.calculateDate = function (
 
 	const [jd_et, jd_ut] = date.data; // et for planets, ut for houses
 
-	return { jd_et, jd_ut };
+	// Calculate Delta T
+	const delta_t = sweph.deltat(jd_ut);
+	console.log("Delta T:", delta_t);
+
+	console.log("Converted date in JD:", jd_et, jd_ut);
+
+	return { jd_et, jd_ut, delta_t };
 };

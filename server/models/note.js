@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-const noteSchema = new mongoose.Schema(
+const noteSchema = new Schema(
 	{
 		title: String,
 		content: String,
@@ -17,6 +18,10 @@ const noteSchema = new mongoose.Schema(
 			type: String,
 			enum: ["negative", "neutral", "positive", "uncategorized"],
 			default: "uncategorized",
+		},
+		natalChart: {
+			type: Schema.Types.ObjectId,
+			ref: "NatalChart",
 		},
 	},
 	{

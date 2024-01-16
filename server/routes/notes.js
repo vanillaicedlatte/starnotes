@@ -5,7 +5,7 @@ const chartData = require("/Users/jamiespann/repos/starnotes/client/src/utils/ch
 
 router.post("/", async (req, res) => {
 	// Get the user input from the request body
-	const { title, content, userTags, category } = req.body;
+	const { title, content, userTags, category, natalChart } = req.body;
 	console.log("Got the user input from the request body");
 
 	// Get the astrology placements from your chart data API
@@ -14,16 +14,21 @@ router.post("/", async (req, res) => {
 		chartTags = await chartData.calculatePlanetData();
 	} catch (error) {
 		console.error(error);
-		res
-			.status(500)
-			.json({
-				error: "An error occurred while calculating planet data for note.",
-			});
+		res.status(500).json({
+			error: "An error occurred while calculating planet data for note.",
+		});
 		return;
 	}
 
 	// Create a new note
-	const note = new Note({ title, content, userTags, chartTags, category });
+	const note = new Note({
+		title,
+		content,
+		userTags,
+		chartTags,
+		category,
+		natalChart,
+	});
 
 	// Save the note
 	await note.save();

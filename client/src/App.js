@@ -1,15 +1,23 @@
-import React from "react";
+import React, { StrictMode } from "react";
 import "./App.css";
 import ExploreSection from "./components/ExploreSection";
 import Logo from "./components/Logo";
 import Menu from "./components/Menu";
-import SavedChartsDropdown from "./components/natalCharts/SavedChartsDropdown";
 import NotesGrid from "./components/notes/NotesGrid";
 import NewNoteButton from "./components/notes/NewNoteButton";
 import Sidebar from "./components/Sidebar";
+import {
+	Outlet,
+	RouterProvider,
+	Link,
+	Router,
+	Route,
+	RootRoute,
+} from "@tanstack/react-router";
+import AllNotes from "./pages/AllNotes";
 
-function App() {
-	return (
+const rootRoute = new RootRoute({
+	component: () => (
 		<div className='main'>
 			<div className='top-nav flex justify-between items-center p-6 bg-base-300'>
 				<Logo />
@@ -22,18 +30,46 @@ function App() {
 			<div className='content grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-3'>
 				<Sidebar className='col-span-1' />
 				<div className='main-content sm:col-span-1 md:col-span-2 lg:col-span-3 p-3'>
-					<div className='notes'>
-						<NotesGrid />
-					</div>
-					<div className='saved-charts'>
-						<SavedChartsDropdown />
-					</div>
-					<div className='explore-section'>
-						<ExploreSection />
-					</div>
+					<Outlet />
 				</div>
 			</div>
 		</div>
+	),
+});
+
+const allNotesRoute = new Route({
+	getParentRoute: () => rootRoute,
+	path: "/all-notes",
+	component: AllNotes,
+});
+
+const indexRoute = new Route({
+	getParentRoute: () => rootRoute,
+	path: "/",
+	component: () => (
+		<>
+			<div className='notes'>
+				<NotesGrid maxNotes={3} />
+				<Link to='/all-notes' className='btn btn-secondary'>
+					View All Notes
+				</Link>
+			</div>
+			<div className='explore-section'>
+				<ExploreSection />
+			</div>
+		</>
+	),
+});
+
+const routeTree = rootRoute.addChildren([indexRoute, allNotesRoute]);
+
+const router = new Router({ routeTree });
+
+function App() {
+	return (
+		<StrictMode>
+			<RouterProvider router={router} />
+		</StrictMode>
 	);
 }
 
