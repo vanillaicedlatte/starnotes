@@ -6,6 +6,7 @@ import Menu from "./components/Menu";
 import NotesGrid from "./components/notes/NotesGrid";
 import NewNoteButton from "./components/notes/NewNoteButton";
 import Sidebar from "./components/Sidebar";
+import ClerkButtons from "./components/ClerkButtons";
 import {
 	Outlet,
 	RouterProvider,
@@ -13,8 +14,17 @@ import {
 	Router,
 	Route,
 	RootRoute,
+	useNavigate,
 } from "@tanstack/react-router";
 import AllNotes from "./pages/AllNotes";
+import { ClerkProvider } from "@clerk/clerk-react";
+
+const PUBLISHABLE_KEY =
+	"pk_test_b3Blbi1tb25hcmNoLTYzLmNsZXJrLmFjY291bnRzLmRldiQ";
+
+if (!PUBLISHABLE_KEY) {
+	throw new Error("Missing Publishable Key");
+}
 
 const rootRoute = new RootRoute({
 	component: () => (
@@ -26,6 +36,7 @@ const rootRoute = new RootRoute({
 					<NewNoteButton />
 					<button className='btn btn-ghost'>My Notes</button>
 				</div>
+				<ClerkButtons />
 			</div>
 			<div className='content grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-3'>
 				<Sidebar className='col-span-1' />
@@ -68,8 +79,23 @@ const router = new Router({ routeTree });
 function App() {
 	return (
 		<StrictMode>
-			<RouterProvider router={router} />
+			<RouterProvider router={router}>
+				<NavigationWrapper />
+			</RouterProvider>
 		</StrictMode>
+	);
+}
+
+function NavigationWrapper() {
+	const navigate = useNavigate();
+
+	return (
+		<ClerkProvider
+			navigate={navigate}
+			publicAPIKey={process.env.REACT_APP_CLERK_PUBLISHABLE_KEY}
+		>
+			{/* Rest of your components */}
+		</ClerkProvider>
 	);
 }
 
