@@ -1,11 +1,18 @@
-require("dotenv").config({ path: "../.env" });
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const chartData = require("../client/src/utils/charts/chartCalculation/ChartData");
 const cors = require("cors");
 const notesRouter = require("./routes/notes");
 const savedChartsRouter = require("./routes/natalcharts");
+
+let chartData;
+
+import("../client/src/utils/charts/chartCalculation/ChartData.cjs").then(
+	(module) => {
+		chartData = module;
+	}
+);
 
 app.use(cors());
 

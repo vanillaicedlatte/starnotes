@@ -1,7 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const SavedChart = require("../models/SavedChart");
-const chartData = require("/Users/jamiespann/repos/starnotes/client/src/utils/charts/chartCalculation/ChartData");
+let chartData;
+
+import("../../client/src/utils/charts/chartCalculation/ChartData.cjs").then(
+	(module) => {
+		chartData = module;
+	}
+);
 
 router.post("/", async (req, res) => {
 	const { userId, chartName, birthDate, lat, long, userTags } = req.body;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Note from "./Note";
-import filterNotes from "../../utils/notes/filterNotes";
+import filterNotes from "../../utils/notes/filterNotes.cjs";
 import NotesFilter from "./NotesFilter";
 
 const NotesGrid = ({ maxNotes, showPagination }) => {

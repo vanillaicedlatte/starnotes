@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faTimes } from "@fortawesome/free-solid-svg-icons";
-import filterNotes from "../../utils/notes/filterNotes";
+import filterNotes from "../../utils/notes/filterNotes.cjs";
 
 const NotesFilter = ({ onFilter }) => {
 	const [searchTerm, setSearchTerm] = useState("");
@@ -10,6 +10,7 @@ const NotesFilter = ({ onFilter }) => {
 	const [degree, setDegree] = useState("");
 	const [category, setCategory] = useState(""); // new state variable for category
 	const [moonPhase, setMoonPhase] = useState("");
+	const [savedCharts, setSavedCharts] = useState([]);
 
 	const zodiac = [
 		"Aries",

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import WheelChart from "./wheelChart.js";
-import NewNoteButton from "../notes/NewNoteButton.js";
+import WheelChart from "./wheelChart";
+import NewNoteButton from "../notes/NewNoteButton";
 
 // Fetch planet data from the server
 async function fetchData(setPlanetData, setError) {

@@ -1,12 +1,12 @@
 const sweph = require("sweph");
 sweph.set_ephe_path("/Users/jamiespann/repos/starnotes/server/ephe");
 
-const { calculateDate } = require("./DateCalculation");
-const { calculatePlacement } = require("./celestialBodies");
-const { calculateAscendant } = require("./Ascendant");
-const { calculateMidheaven } = require("./Midheaven");
-const transformData = require("../chartOfTheMoment/AstroChartData");
-const { calculateHouse } = require("./houseCalculation");
+const { calculateDate } = require("./DateCalculation.cjs");
+const { calculatePlacement } = require("./celestialBodies.cjs");
+const { calculateAscendant } = require("./Ascendant.cjs");
+const { calculateMidheaven } = require("./Midheaven.cjs");
+const transformData = require("../chartOfTheMoment/AstroChartData.cjs");
+const { calculateHouse } = require("./houseCalculation.cjs");
 
 const celestialBodies = [
 	sweph.constants.SE_SUN,
@@ -102,7 +102,7 @@ module.exports.calculatePlanetData = function (
 		degree: midDegree,
 		house: midheavenHouse,
 	} = calculateMidheaven(jd_ut, geolat, geolon);
-	const { calculateNorthNode, calculateSouthNode } = require("./Nodes");
+	const { calculateNorthNode, calculateSouthNode } = require("./Nodes.cjs");
 	const northNode = calculateNorthNode(jd_et);
 	const southNode = calculateSouthNode(jd_et);
 

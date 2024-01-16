@@ -1,7 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const Note = require("../models/Note");
-const chartData = require("/Users/jamiespann/repos/starnotes/client/src/utils/charts/chartCalculation/ChartData");
+let chartData;
+
+import("../../client/src/utils/charts/chartCalculation/ChartData.cjs").then(
+	(module) => {
+		chartData = module;
+	}
+);
 
 router.post("/", async (req, res) => {
 	// Get the user input from the request body

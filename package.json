@@ -4,9 +4,8 @@
 	"description": "A notes app with astrology features.",
 	"main": "index.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
 		"server": "node server/server.js",
-		"client": "npm start --prefix client",
+		"client": "npm run dev --prefix client",
 		"dev": "concurrently \"npm run server\" \"npm run client\""
 	},
 	"keywords": [],
@@ -26,6 +25,7 @@
 		"mongodb": "^6.3.0",
 		"mongoose": "^8.0.3",
 		"react-scripts": "^5.0.1",
+		"react-router-dom": "^6.21.2",
 		"sweph": "^2.10.3-3"
 	}
 }
